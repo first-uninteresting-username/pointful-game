@@ -8,3 +8,10 @@ devenv.local.yaml
 
 # pre-commit
 .pre-commit-config.yaml
+
+# Godot 4+
+.godot/
+/android/
+
+# Export output
+/build/
