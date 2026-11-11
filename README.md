@@ -1,4 +1,4 @@
-# template
+# pointful-game
 
 <!-- One sentence: what this is, written for someone who has never heard of it. -->
 
@@ -34,8 +34,8 @@ A template repository
 This project uses [devenv](https://devenv.sh) for its development environment.
 
 ```bash
-git clone https://github.com/first-uninteresting-username/<repo>
-cd <repo>
+git clone https://github.com/first-uninteresting-username/pointful-game
+cd pointful-game
 devenv shell
 ```
 
