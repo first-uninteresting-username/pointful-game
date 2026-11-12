@@ -2,12 +2,14 @@ extends Node2D
 
 @export var MAX_DIS: float = 50
 
-var score: float = 0
+var score: float = 10
 var sec: float = 0
+var time: float = 0
 
 const POINT_SCENE = preload("res://point.tscn")
 
 func _process(delta: float) -> void:
+	time = time + delta
 	sec = sec + delta
 	if sec >= 0.3:
 		spawn_point()
@@ -19,14 +21,15 @@ func _process(delta: float) -> void:
 			var a := points[i]
 			var b := points[j]
 			var reach: float = a.get_radius() + b.get_radius()
-			if a.center.distance_squared_to(b.center) < reach * reach:
+			if a.get_center().distance_squared_to(b.get_center()) < reach * reach:
 				if a.get_radius() < MAX_DIS or b.get_radius() < MAX_DIS:
 					a.remove_self()
 					b.remove_self()
-					pass
 				score = score + calculate_penalty(
-					a.center.distance_to(b.center)
+					a.get_center().distance_to(b.get_center())
 				)
+				a.remove_self()
+				b.remove_self()
 
 func calculate_penalty(d: float) -> float:
 	d = d - 4 * MAX_DIS
@@ -56,7 +59,7 @@ func get_free_place() -> Vector2:
 		return p
 	for point in points:
 		var pos: Vector2 = point.get_center()
-		var rad_plus: float = (point.get_radius() + MAX_DIS)^2
+		var rad_plus: float = (point.get_radius() + MAX_DIS)**2
 		if p.distance_squared_to(pos) < rad_plus:
 			return Vector2.INF
 	return p
