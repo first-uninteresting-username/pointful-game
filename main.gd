@@ -11,7 +11,7 @@ const POINT_SCENE = preload("res://point.tscn")
 func _process(delta: float) -> void:
 	time = time + delta
 	sec = sec + delta
-	if sec >= 0.3:
+	if sec > calculate_delay():
 		spawn_point()
 		sec = 0
 
@@ -30,6 +30,12 @@ func _process(delta: float) -> void:
 				)
 				a.remove_self()
 				b.remove_self()
+
+	print(score)
+
+func calculate_delay() -> float:
+	return min(1, 15/(time**1.3))
+
 
 func calculate_penalty(d: float) -> float:
 	d = d - 4 * MAX_DIS
