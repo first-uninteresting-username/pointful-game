@@ -13,9 +13,11 @@ func _input_event(viewport, event, shape_idx) -> void:
 
 func calculate_and_emit_add_score(radius: float) -> void:
 	var score: float = max(200/radius, 1)
-	print(score)
 	add_score.emit(score)
+	remove_self()
 
+func remove_self() -> void:
+	queue_free()
 
 func get_radius() -> float:
 		var circle := collision_shape.shape as CircleShape2D

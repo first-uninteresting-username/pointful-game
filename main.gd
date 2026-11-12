@@ -1,7 +1,10 @@
 extends Node2D
 
+@export var MAX_DIS: float = 50
+
 var score: float = 0
 var sec: float = 0
+
 const POINT_SCENE = preload("res://point.tscn")
 
 func _process(delta: float) -> void:
@@ -9,6 +12,27 @@ func _process(delta: float) -> void:
 	if sec >= 0.3:
 		spawn_point()
 		sec = 0
+
+	var points: Array[Node] = get_tree().get_nodes_in_group("points")
+	for i in range(len(points) - 1):
+		for j in range(i+1, len(points)):
+			var a := points[i]
+			var b := points[j]
+			var reach: float = a.get_radius() + b.get_radius()
+			if a.center.distance_squared_to(b.center) < reach * reach:
+				if a.get_radius() < MAX_DIS or b.get_radius() < MAX_DIS:
+					a.remove_self()
+					b.remove_self()
+					pass
+				score = score + calculate_penalty(
+					a.center.distance_to(b.center)
+				)
+
+func calculate_penalty(d: float) -> float:
+	d = d - 4 * MAX_DIS
+	if d < 0:
+		return -1
+	return min(-1, -d/MAX_DIS)
 
 func _on_add_score(add: float) -> void:
 	score = score + add
@@ -32,7 +56,7 @@ func get_free_place() -> Vector2:
 		return p
 	for point in points:
 		var pos: Vector2 = point.get_center()
-		var rad: float = point.get_radius()
-		if p.distance_squared_to(pos) < (rad + 50) * (rad + 50):
+		var rad_plus: float = (point.get_radius() + MAX_DIS)^2
+		if p.distance_squared_to(pos) < rad_plus:
 			return Vector2.INF
 	return p
