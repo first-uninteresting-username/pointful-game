@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_pqj4k"]
 radius = 0.01
 
-[node name="Point" type="CharacterBody2D" unique_id=623158910]
+[node name="Point" type="CharacterBody2D" unique_id=623158910 groups=["points"]]
 input_pickable = true
 script = ExtResource("1_q733i")
 
