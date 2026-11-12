@@ -1,10 +1,14 @@
 extends Node2D
 
 var score: float = 0
+var sec: float = 0
 const POINT_SCENE = preload("res://point.tscn")
 
-func _ready() -> void:
-	$Point.add_score.connect(_on_add_score)
+func _process(delta: float) -> void:
+	sec = sec + delta
+	if sec >= 0.3:
+		spawn_point()
+		sec = 0
 
 func _on_add_score(add: float) -> void:
 	score = score + add
@@ -29,6 +33,6 @@ func get_free_place() -> Vector2:
 	for point in points:
 		var pos: Vector2 = point.get_center()
 		var rad: float = point.get_radius()
-		if p.distance_squared_to(pos) > (rad + 50) * (rad + 50):
-			return p
-	return Vector2.INF
+		if p.distance_squared_to(pos) < (rad + 50) * (rad + 50):
+			return Vector2.INF
+	return p

@@ -5,7 +5,7 @@ signal add_score(add: float)
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 func _ready() -> void:
-	shape = shape.duplicate()
+	collision_shape.shape = collision_shape.shape.duplicate()
 
 func _input_event(viewport, event, shape_idx) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
