@@ -8,7 +8,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	shape.radius = shape.radius + delta * 100
+	shape.radius = shape.radius + delta * 150
 	queue_redraw()
 
 func _draw() -> void:

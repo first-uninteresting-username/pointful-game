@@ -1,6 +1,19 @@
 extends CharacterBody2D
 
+signal add_score(add: float)
+
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 func _input_event(viewport, event, shape_idx) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
-		print("clicked!")
+		calculate_and_emit_add_score(get_radius())
+
+func calculate_and_emit_add_score(radius: float) -> void:
+	var score: float = max(200/radius, 1)
+	print(score)
+	add_score.emit(score)
+
+
+func get_radius() -> float:
+		var circle := collision_shape.shape as CircleShape2D
+		return circle.radius
