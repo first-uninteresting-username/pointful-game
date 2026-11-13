@@ -65,4 +65,4 @@ devenv shell
 
 ## License
 
-This project is licensed under the [GNU GPL v3.0](LICENSE).
+This project is licensed under the [GNU AGPL v3.0](LICENSE).
