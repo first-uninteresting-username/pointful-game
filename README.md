@@ -4,7 +4,7 @@ A pseud-arcade, very unfun game that has points (so it's not pointless). <!-- I'
 
 ![Screenshot of the game](https://cdn.hackclub.com/01a1d5f5-8dfa-7d79-bd53-3f808fa92ee1/poinful-game.png)
 
-**[Try it here](https://example.com)**
+**[Try it here](https://1stuninterestingusername.itch.io/pointful-game)**
 
 ## About
 
