@@ -1,16 +1,12 @@
 extends Node2D
 
 @export var MAX_DIS: float = 50
-## How long Space must be held to end the run early.
 @export var HOLD_TO_FINISH: float = 1.0
 
 var score: float = 10
 var sec: float = 0
-## Survival time. This is what the menu shows as the final result.
 var time: float = 0
 
-## Hold-to-finish state. `holding` only becomes true on a fresh press made
-## during the game, so a Space press carried over from the menu is ignored.
 var holding: bool = false
 var hold_time: float = 0
 
@@ -41,7 +37,7 @@ func _process(delta: float) -> void:
 			var a := points[i]
 			var b := points[j]
 			var reach: float = a.get_radius() + b.get_radius()
-			if a.get_center().distance_squared_to(b.get_center()) < reach * reach:
+			if a.get_center().distance_squared_to(b.get_center()) < reach**2:
 				if a.get_radius() < MAX_DIS or b.get_radius() < MAX_DIS:
 					a.remove_self()
 					b.remove_self()
@@ -51,8 +47,6 @@ func _process(delta: float) -> void:
 				a.remove_self()
 				b.remove_self()
 
-	# Game over: running out of points ends the run, and the time survived
-	# becomes the score.
 	if score <= 0:
 		GameState.finish_game(time)
 
@@ -63,8 +57,8 @@ func calculate_delay() -> float:
 func calculate_penalty(d: float) -> float:
 	d = d - 4 * MAX_DIS
 	if d < 0:
-		return -1
-	return min(-1, -d/MAX_DIS)
+		return -2
+	return (-d/MAX_DIS) - 2
 
 func _on_add_score(add: float) -> void:
 	score = score + add
@@ -88,7 +82,7 @@ func get_free_place() -> Vector2:
 		return p
 	for point in points:
 		var pos: Vector2 = point.get_center()
-		var rad_plus: float = (point.get_radius() + MAX_DIS)**2
+		var rad_plus: float = (point.get_radius() + MAX_DIS * 2)**2
 		if p.distance_squared_to(pos) < rad_plus:
 			return Vector2.INF
 	return p

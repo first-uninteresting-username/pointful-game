@@ -1,33 +1,32 @@
 # pointful-game
 
-<!-- One sentence: what this is, written for someone who has never heard of it. -->
+A pseud-arcade, very unfun game that has points (so it's not pointless). <!-- I'm very funny /joke -->
 
-A template repository
+![Screenshot of the game](https://cdn.hackclub.com/01a1d5f5-8dfa-7d79-bd53-3f808fa92ee1/poinful-game.png)
 
-<!-- Hero screenshot / GIF / photo of the project in action. -->
-
-![screenshot](docs/screenshot.png)
-
-**[Try it here](https://example.com)** <!-- Live demo link: not the repo, not localhost. -->
+**[Try it here](https://example.com)**
 
 ## About
 
-<!--
-- What is it and what does it do?
-- Why did you make it? What problem does it solve for you?
--->
+`pointful-game` is a game a made in preparation to Hack Club Haven.
+It's only my second game and it's not fun to play at all.
 
 ## Features
 
-<!-- 3–7 specific bullets a reviewer could verify in the demo. -->
-
--
--
--
+- Growing points
+- Losing
+- Point destruction on contact with another point
+- No sound or cool effects
+- Probably one or two funny bugs that are totally intended
 
 ## Usage
 
-<!-- How someone uses the project once it's running. Include controls for games. -->
+- Space or the play button: start the game from the menu
+- Left click a circle to pop it and gain points (smaller circles give more)
+- Circles grow over time, when two touch, both vanish and you lose points
+- Hold Space for 1 second to end the run early
+
+The run ends when your score drops to 0. Your result is how long you survived.
 
 ## Running locally
 
@@ -39,29 +38,39 @@ cd pointful-game
 devenv shell
 ```
 
-<!-- Add the exact commands to build/run, required env vars (with example values), and any system dependencies. -->
+Run `export-web` to export the game to web build.
+It will be available at `$PWD/build/web`.
+
 
 ## Built with
 
-<!-- Languages, frameworks, libraries, tools. -->
-
--
+- Godot 4
 
 ## How it works
 
-<!-- A paragraph or two on interesting technical decisions and trade-offs, problems you hit and how you fixed them. -->
+The game tries to spawn a point every `min(1, 15/(time in seconds**1.3))` seconds.
+This is a graph that describes this function:
+
+![Graph stays flat, then drops quickly, like an inverted quadratic function.](https://cdn.hackclub.com/01a1d604-2a73-7441-9c3e-1147d8743570/desmos_graph_spawn_function_pointful_game.png)
+
+I said it tries to spawn it, because if the selected coordinates are closer to any of existing point centers by radius of it in 1s (to avoid unfair situations).
+
+When you click a point, it gets deleted and you get `max(200px/radius in pixels, 1)` points. For reference, points grow by 100 pixels every second.
+This is a graph that describes this function:
+
+![Graph drops steeply from the left, like 1/x, then stays flat at 1 from 200 pixels onward.](https://cdn.hackclub.com/01a1d698-6e76-768a-b5f4-5d64283ba99f/desmos_graph_click_score_pointful_game.png)
+
+When two points touch each other, they both get deleted and you get `min(-2, -(radius of point A + radius of point B - 200 pixels)/50 - 2)` points.
+This is a graph that describes this function:
+
+![Graph stays flat at -2 until 200 pixels, then goes down in a straight line.](https://cdn.hackclub.com/01a1d698-7049-782b-a2de-7a04088c9adb/desmos_graph_collision_penalty_pointful_game.png)
 
 ## AI usage
 
-<!-- Be honest: what (if anything) AI was used for, and roughly how much. -->
-
 - `AGENTS.md` is AI written
 - `devenv.nix` is AI written
-- The menu is copied over from my [previous game](https://github.com/first-uninteresting-username/you-are-the-ball)
-
-## Credits
-
-<!-- People who helped, libraries you leaned on, asset packs you used. -->
+- The menu is copied over from my [previous game](https://github.com/first-uninteresting-username/you-are-the-ball) by AI
+- I used AI heavily for explaining godot
 
 ## License
 

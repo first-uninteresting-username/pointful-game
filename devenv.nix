@@ -56,6 +56,8 @@ in {
     '';
     export-web.exec = ''
       mkdir -p "$DEVENV_ROOT/build/web"
+      # .gdignore stops Godot importing old export output as game assets
+      touch "$DEVENV_ROOT/build/.gdignore"
       godot --headless --path "$DEVENV_ROOT" --export-release Web "$DEVENV_ROOT/build/web/index.html"
     '';
     serve-web.exec = "python3 -m http.server --directory \"$DEVENV_ROOT/build/web\" \"\${1:-8060}\"";

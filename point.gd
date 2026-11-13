@@ -20,8 +20,8 @@ func remove_self() -> void:
 	queue_free()
 
 func get_radius() -> float:
-		var circle := collision_shape.shape as CircleShape2D
-		return circle.radius
+	var circle := collision_shape.shape as CircleShape2D
+	return circle.radius
 
 func get_center() -> Vector2:
-		return collision_shape.global_position
+	return collision_shape.global_position
