@@ -1,15 +1,35 @@
 extends Node2D
 
 @export var MAX_DIS: float = 50
+## How long Space must be held to end the run early.
+@export var HOLD_TO_FINISH: float = 1.0
 
 var score: float = 10
 var sec: float = 0
+## Survival time. This is what the menu shows as the final result.
 var time: float = 0
+
+## Hold-to-finish state. `holding` only becomes true on a fresh press made
+## during the game, so a Space press carried over from the menu is ignored.
+var holding: bool = false
+var hold_time: float = 0
 
 const POINT_SCENE = preload("res://point.tscn")
 
 func _process(delta: float) -> void:
 	time = time + delta
+
+	if Input.is_action_just_pressed("play"):
+		holding = true
+	if holding and Input.is_action_pressed("play"):
+		hold_time = hold_time + delta
+		if hold_time >= HOLD_TO_FINISH:
+			GameState.finish_game(time)
+			return
+	else:
+		holding = false
+		hold_time = 0
+
 	sec = sec + delta
 	if sec > calculate_delay():
 		spawn_point()
@@ -31,7 +51,10 @@ func _process(delta: float) -> void:
 				a.remove_self()
 				b.remove_self()
 
-	print(score)
+	# Game over: running out of points ends the run, and the time survived
+	# becomes the score.
+	if score <= 0:
+		GameState.finish_game(time)
 
 func calculate_delay() -> float:
 	return min(1, 15/(time**1.3))

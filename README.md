@@ -56,6 +56,8 @@ devenv shell
 <!-- Be honest: what (if anything) AI was used for, and roughly how much. -->
 
 - `AGENTS.md` is AI written
+- `devenv.nix` is AI written
+- The menu is copied over from my [previous game](https://github.com/first-uninteresting-username/you-are-the-ball)
 
 ## Credits
 
